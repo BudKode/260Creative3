@@ -1,69 +1,77 @@
-angular.module('News', ['ui.router'])
-.config([
-'$stateProvider',
-'$urlRouterProvider',
-function($stateProvider, $urlRouterProvider) {
-  $stateProvider
-    .state('home', {
-      url: '/home',
-      templateUrl: '/home.html',
-      controller: 'MainCtrl'
-    })
-    .state('posts', {
-      url: '/posts/{id}',
-      templateUrl: '/posts.html',
-      controller: 'PostsCtrl'
-    });
+/**
+ * 1. We have added a directive with the name 'avatar' and handler of
+ * avatarDirective to our angular app module
+ */
+angular.module('app', [])
+  .controller('mainCtrl', mainCtrl)
+  .directive('lineItem', lineItemDirective);
 
-  $urlRouterProvider.otherwise('home');
-}]) 
-.factory('postFactory', [function(){
-  var o = {
-    posts: []
+function mainCtrl ($scope) {
+
+  $scope.incomeItems = [];
+  $scope.expenseItems = [];
+
+  $scope.addNew = function (item) {
+    if(item.frequency == 'weekly'){
+      item.sum = (parseInt(item.sum) * 3.5).toString();
+      console.log(item.sum)
+    }
+    if(item.frequency == 'daily'){
+      item.sum = (parseInt(item.sum) * 30.5).toString();
+      console.log(item.sum)
+    }
+    if(item.type == 'income'){
+      console.log("hit income");
+      console.log(item);
+      $scope.incomeItems.push({ 
+        name: item.name,
+        sum: item.sum,
+        frequency: item.frequency,
+        type: item.type
+      }); /* [1] */
+    } else {
+      console.log("hit expenses");
+      console.log(item);
+      $scope.expenseItems.push({ 
+        name: item.name,
+        sum: item.sum,
+        frequency: item.frequency,
+        type: item.type
+      }); /* [1] */
+    }
+    //Reset all the inputs
+    item.name = ''; /* [2] */
+    item.sum = '';
+    item.frequency = '';
+    item.type = '';
   };
-  return o;
-}])
-.controller('MainCtrl', [
-'$scope',
-'postFactory',
-function($scope, postFactory){
-  $scope.test = 'Hello world!';
+}
 
-  $scope.posts = postFactory.posts;
-
-  $scope.addPost = function(){
-    if($scope.formContent === '') { return; }
-    $scope.posts.push({
-      title: $scope.formContent,
-      upvotes: 0,
-      comments: [
-      ]
-    });
-    $scope.formContent = '';
+/**
+ * 1. this defines the api of our avatar directive. This means we are
+ * expecting a user property whose value should be interpreted as an object.
+ * 2. This simply means we want this directive to be used as an element.
+ * 3. You can see here we've moved the html that was in our template before
+ * and give it as the template for this directive. This means wherever we use
+ * <avatar /> this html will also be placed there.
+ * 4. Here we are implementing the feature where if there is no user avatar url,
+ * we go ahead and give it a default
+ */
+function lineItemDirective () {
+  return {
+    scope: {
+      item: '=' /* [1] */
+    },
+    restrict: 'E', /* [2] */
+    replace: 'true',
+    template: (
+      '<div class="lineItem">' +
+        '<span>' + 
+          '<h4>{{item.name}}</h4>' +
+          '<h4>{{item.sum}}</h4>' + 
+        '</span>' + 
+      '</div>'
+    ) /* [3] */
   };
 
-  $scope.incrementUpvotes = function(post) {
-    post.upvotes += 1;
-  };
-
-}])
-.controller('PostsCtrl', [
-'$scope',
-'$stateParams',
-'postFactory',
-function($scope, $stateParams, postFactory){
-  $scope.post = postFactory.posts[$stateParams.id];
-  
-  $scope.addComment = function(){
-    if($scope.body === '') { return; }
-    $scope.post.comments.push({
-      body: $scope.body,
-      upvotes: 0
-    });
-    $scope.body = '';
-  };
-
-  $scope.incrementUpvotes = function(comment){
-    comment.upvotes += 1;
-  };
-}]);
+}

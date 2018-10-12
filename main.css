@@ -1,0 +1,30 @@
+.Item-list {
+  list-style: none;
+}
+
+#welcome-section {
+    padding-top: 40px;
+    padding-bottom: 10px;
+    color: #003d66;
+    background-color: #0099ff;
+}
+
+h3 {
+  color: #80ccff;
+}
+
+#description-section {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: large;
+}
+
+img {
+  padding: 1px;
+  border: 10px;
+  transform: rotate(90deg);
+}
+
+#user-section {
+    padding: 50px;
+}

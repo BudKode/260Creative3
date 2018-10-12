@@ -1,84 +1,87 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <title>News</title>
-
-
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
   <script src="app.js"></script>
-
-
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="main.css">
+  <meta charset="utf-8">
+  <title>Budget Cruncher</title>
 </head>
-<body ng-app="News">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-      <ui-view></ui-view>
+<body>
+    <nav id='header-bar' class="navbar navbar-expand-lg navbar-light bg-light">
+        <a style="color:#00BFFF" class="navbar-brand" href="#">BudgetCruncher</a>
+    </nav>
+  <div id="welcome-section" class="container-fluid">
+      <h1>Budget Cruncher</h1>
+      <h3>Budget Analysis for Students</h3>
+  </div>
+  <div id="description-section" class="container-fluid">
+    <div class="row">
+      <div class="col-9">
+        <h2>The Simple Solution For You</h2>
+        <p>When it comes do money, do you ever feel like you're drowning but you're not sure what you're drowning in?
+        For most students, money is a constant worry but the understanding isn't all there. 
+        There always seems to be a vague sense of looming destruction whenever we think about it.
+        Spending is hard to keep track of as it is, and the added dynamic of school makes it that much harder.
+        Don't worry or waste your time anymore trying to chart out your meals by the 
+        dime and tracking down receipts. Focus instead on your schooling you came for! Use BudgetCruncher.
+        <p>This easy to use tool will help you understand your financial needs during
+        your time at school. There is no accounting required!
+        Add your average expenses straight from your credit card statement and put in your weekly pay.
+        Have an allowance or scholarship? Add that in too! BudgetCruncher is flexible and can accept any kind of income or expense.
+        Try it out now! Simply add in your data as line items and let BudgetCruncher format and analyze your data so that you know exactly what's going on!
+        BudgetCruncher will even make suggestions to optimize your financial situation.
+        Whatever you're planning for, use BudgetCruncher!</p>
+        <h2 style="color:#003d66; padding:30px;">Try it Out Below!</h2>
+      </div>
+      <div class="col-3 text-center">
+        <h3>User Testimonials</h3>
+        <div id="testimonial">
+          <img border="0" alt="Where'd all my moneys?" 
+            src="IMG_0024.JPG" class="rounded-circle" height="150px", width="150px">
+          <p>Finances used to be a huge nightmare for me.
+          I could never figure out where all my money was going.
+          Then I found BudgetCruncher.
+          Now I can focus on school and studying without worrying about my finances, 
+          and when it comes to money, I'm not drowning, I'm swimming in it!</p>
+          <h6>- Tanner from Las Vegas</h6>
+          <img border="0" alt="Many much money!" 
+            src="IMG_0030.JPG" class="rounded-circle" height="150px", width="150px">
+        </div>
+      </div>
     </div>
   </div>
-
-  <script type="text/ng-template" id="/home.html">
-    <div class="page-header">
-      <h1>News</h1>
-    </div>
-
-    <form ng-submit="addPost()"
-      style="margin-top:30px;">
-      <h3>Add a new post</h3>
-
-      <div class="form-group">
-        <input type="text"
-        class="form-control"
-        placeholder="Title"
-        ng-model="formContent"></input>
+  <div id="user-section" class="container-fluid">
+      <h2>Add Your Budget Contraints in as Income or Expense Line Items</h2>
+      <div ng-app='app' ng-controller='mainCtrl'>
+        <div class="row">
+          <div class="col-9">
+            <h3>Input Here</h3>
+            <form name='itemForm' ng-submit='addNew(itemForm)'>
+              <input placeholder='Item Name (ex. Rent)' ng-model='itemForm.name'/>
+              <input placeholder='Dollar Amount' ng-model='itemForm.sum'/>
+              <input placeholder='Weekly, Daily, or Monthly' ng-model='itemForm.frequency'/>
+              <input placeholder='Income or Expense' ng-model='itemForm.type'/>
+              <button type='submit'>Add New</button>
+            </form>
+          </div>
+          <div class="col-3">
+            <h6>Monthly Income</h6>
+            <ul class='Income-list'>
+              <li ng-repeat='item in incomeItems'>
+                <lineItem item='item' />
+              </li>
+            </ul>
+            <h6>Monthly Expenses</h6>
+            <ul class='Expense-list'>
+              <li ng-repeat='item in expenseItems'>
+                <lineItem item='item' />
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary">Post</button>
-    </form>
-
-    <div ng-repeat="post in posts | orderBy:'-upvotes'">
-      <span class="glyphicon glyphicon-thumbs-up"
-        ng-click="incrementUpvotes(post)"></span>
-      {{post.upvotes}}
-      <span style="font-size:20px; margin-left:10px;">
-          {{post.title}}
-      </span>
-      <span>
-        <a href="#/posts/{{posts.indexOf(post)}}">Comments</a>
-      </span>
-    </div>
-
-  </script>
-
-  <script type="text/ng-template" id="/posts.html">
-    <div class="page-header">
-      <h3>
-          {{post.title}}
-      </h3>
-    </div>
-
-    <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
-      <span class="glyphicon glyphicon-thumbs-up"
-        ng-click="incrementUpvotes(comment)"></span>
-      {{comment.upvotes}} 
-      <span style="font-size:20px; margin-left:10px;">
-        {{comment.body}}
-      </span>
-    </div>
-    <form ng-submit="addComment()"
-      style="margin-top:30px;">
-      <h3>Add a new comment</h3>
-
-      <div class="form-group">
-        <input type="text"
-        class="form-control"
-        placeholder="Comment"
-        ng-model="body"></input>
-      </div>
-      <button type="submit" class="btn btn-primary">Post</button>
-    </form>
-
-  </script>
+  </div>
 </body>
 </html>
