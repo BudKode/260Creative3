@@ -70,13 +70,13 @@
             <h6>Monthly Income</h6>
             <ul class='IncomeLine-list'>
               <li ng-repeat='item in incomeItems'>
-                <lineItem item='item' />
+                {{ item.name + ': ' + item.sum }}
               </li>
             </ul>
             <h6>Monthly Expenses</h6>
             <ul class='ExpenseLine-list'>
               <li ng-repeat='item in expenseItems'>
-                <lineItem item='item' />
+                {{ item.name + ': ' + item.sum }}
               </li>
             </ul>
           </div>

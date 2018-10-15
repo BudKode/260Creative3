@@ -1,10 +1,6 @@
-/**
- * 1. We have added a directive with the name 'avatar' and handler of
- * lineItemDirective to our angular app module
- */
+
 angular.module('app', [])
-  .controller('mainCtrl', mainCtrl)
-  .directive('lineItem', lineItemDirective);
+  .controller('mainCtrl', mainCtrl);
 
 function mainCtrl ($scope) {
 
@@ -49,30 +45,3 @@ function mainCtrl ($scope) {
   };
 }
 
-/**
- * 1. this defines the api of our avatar directive. This means we are
- * expecting a user property whose value should be interpreted as an object.
- * 2. This simply means we want this directive to be used as an element.
- * 3. You can see here we've moved the html that was in our template before
- * and give it as the template for this directive. This means wherever we use
- * <avatar /> this html will also be placed there.
- * 4. Here we are implementing the feature where if there is no user avatar url,
- * we go ahead and give it a default
- */
-function lineItemDirective () {
-  return {
-    scope: {
-      item: '=' /* [1] */
-    },
-    restrict: 'E', /* [2] */
-    replace: 'true',
-    template: (
-      '<div class="LineItem">' +
-        '<h4>{{item.name}}</h4>' +
-        '<h4>{{item.sum}}</h4>' + 
-      '</div>'
-    ), /* [3] */
-    link: ''
-  };
-
-}
