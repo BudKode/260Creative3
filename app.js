@@ -1,6 +1,6 @@
 /**
  * 1. We have added a directive with the name 'avatar' and handler of
- * avatarDirective to our angular app module
+ * lineItemDirective to our angular app module
  */
 angular.module('app', [])
   .controller('mainCtrl', mainCtrl)
@@ -12,6 +12,8 @@ function mainCtrl ($scope) {
   $scope.expenseItems = [];
 
   $scope.addNew = function (item) {
+    item.type = item.type.toLowerCase();
+    item.frequency = item.frequency.toLowerCase();
     if(item.frequency == 'weekly'){
       item.sum = (parseInt(item.sum) * 3.5).toString();
       console.log(item.sum)
@@ -22,22 +24,22 @@ function mainCtrl ($scope) {
     }
     if(item.type == 'income'){
       console.log("hit income");
-      console.log(item);
       $scope.incomeItems.push({ 
         name: item.name,
         sum: item.sum,
         frequency: item.frequency,
         type: item.type
       }); /* [1] */
+      console.log($scope.incomeItems);
     } else {
-      console.log("hit expenses");
-      console.log(item);
+      console.log("hit new expenses");
       $scope.expenseItems.push({ 
         name: item.name,
         sum: item.sum,
         frequency: item.frequency,
         type: item.type
       }); /* [1] */
+      console.log($scope.expenseItems);
     }
     //Reset all the inputs
     item.name = ''; /* [2] */
@@ -65,13 +67,12 @@ function lineItemDirective () {
     restrict: 'E', /* [2] */
     replace: 'true',
     template: (
-      '<div class="lineItem">' +
-        '<span>' + 
-          '<h4>{{item.name}}</h4>' +
-          '<h4>{{item.sum}}</h4>' + 
-        '</span>' + 
+      '<div class="LineItem">' +
+        '<h4>{{item.name}}</h4>' +
+        '<h4>{{item.sum}}</h4>' + 
       '</div>'
-    ) /* [3] */
+    ), /* [3] */
+    link: ''
   };
 
 }
