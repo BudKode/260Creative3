@@ -7,8 +7,8 @@ function mainCtrl ($scope) {
   $scope.incomeItems = [];
   $scope.expenseItems = [];
 
-  $scope.addNew = function (item) {
-    item.type = item.type.toLowerCase();
+  $scope.addNew = function (item, type) {
+    item.type = type;
     item.frequency = item.frequency.toLowerCase();
     if(item.frequency == 'weekly'){
       item.sum = (parseInt(item.sum) * 3.5).toString();
@@ -42,6 +42,21 @@ function mainCtrl ($scope) {
     item.sum = '';
     item.frequency = '';
     item.type = '';
+  };
+
+  $scope.addIncome = function (item) {
+    this.addNew(item, 'income')
+  };
+
+  $scope.addExpense = function (item) {
+      this.addNew(item, 'expense')
+  };
+
+  $scope.getMonthlyNet = function () {
+    let net = 0;
+    $scope.incomeItems.map(item => net += item.sum);
+    $scope.expenseItems.map(item => net -= item.sum);
+    return net;
   };
 }
 

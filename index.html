@@ -9,17 +9,17 @@
   <title>Budget Cruncher</title>
 </head>
 <body>
-    <nav id='header-bar' class="navbar navbar-expand-lg navbar-light bg-light">
-        <a style="color:#00BFFF" class="navbar-brand" href="#">BudgetCruncher</a>
-    </nav>
-  <div id="welcome-section" class="container-fluid">
+    <!--<nav id='header-bar' class="navbar navbar-expand-lg navbar-light bg-light">-->
+        <!--<a style="color:#00BFFF" class="navbar-brand" href="#">BudgetCruncher</a>-->
+    <!--</nav>-->
+  <div id="welcome-section" class="container-fluid" style="padding-left: 30px; padding-top: 18px;">
       <h1>Budget Cruncher</h1>
       <h3>Budget Analysis for Students</h3>
   </div>
   <div id="description-section" class="container-fluid">
     <div class="row">
-      <div class="col-9">
-        <h2>The Simple Solution For You</h2>
+      <div style="padding-left: 30px; padding-right: 30px; width: 50vw">
+        <h4>The Simple Solution For You</h4>
         <p>When it comes do money, do you ever feel like you're drowning but you're not sure what you're drowning in?
         For most students, money is a constant worry but the understanding isn't all there. 
         There always seems to be a vague sense of looming destruction whenever we think about it.
@@ -33,52 +33,62 @@
         Try it out now! Simply add in your data as line items and let BudgetCruncher format and analyze your data so that you know exactly what's going on!
         BudgetCruncher will even make suggestions to optimize your financial situation.
         Whatever you're planning for, use BudgetCruncher!</p>
-        <h2 style="color:#003d66; padding:30px;">Try it Out Below!</h2>
+        <h4 style="color:#003d66;">Try it Out Below!</h4>
       </div>
-      <div class="col-3 text-center">
+      <div style="margin-left: auto; width: 45vw; text-align: center; display: flex; flex-direction: column; justify-content: flex-start; padding: 0px 30px 0px 0px; ">
         <h3>User Testimonials</h3>
         <div id="testimonial">
-          <img border="0" alt="Where'd all my moneys?" 
-            src="IMG_0024.JPG" class="rounded-circle" height="150px", width="150px">
+          <img border="0" alt="Where'd all my moneys?"
+               src="IMG_0024.JPG" class="rounded-circle" height="150px", width="150px">
           <p>Finances used to be a huge nightmare for me.
-          I could never figure out where all my money was going.
-          Then I found BudgetCruncher.
-          Now I can focus on school and studying without worrying about my finances, 
-          and when it comes to money, I'm not drowning, I'm swimming in it!</p>
+            I could never figure out where all my money was going.
+            Then I found BudgetCruncher.
+            Now I can focus on school and studying without worrying about my finances,
+            and when it comes to money, I'm not drowning, I'm swimming in it!</p>
           <h6>- Tanner from Las Vegas</h6>
-          <img border="0" alt="Many much money!" 
-            src="IMG_0030.JPG" class="rounded-circle" height="150px", width="150px">
+          <img border="0" alt="Many much money!"
+               src="IMG_0030.JPG" class="rounded-circle" height="150px", width="150px;">
+          <p style="font-size:.8em; font-style: italic; color: #7d7d7d; width: 200px; margin: auto">BudgetCruncher does not guarantee that users will literally swim in their savings</p>
         </div>
       </div>
-    </div>
+      </div>
+
   </div>
-  <div id="user-section" class="container-fluid">
-      <h2>Add Your Budget Contraints in as Income or Expense Line Items</h2>
+  <div class="user-section">
+      <h2 style="font-weight: bold; font-style: italic">Experience the BudgetCruncher</h2>
+      <h4 style="color: #80ccff">Add Your Budget Contraints in as Income or Expense Line Items</h4>
       <div ng-app='app' ng-controller='mainCtrl'>
-        <div class="row">
-          <div class="col-9">
-            <h3>Input Here</h3>
-            <form name='itemForm' ng-submit='addNew(itemForm)'>
+        <div class="budget-cruncher-container">
+          <div class="">
+            <!--<h3>Input Here</h3>-->
+            <form name='itemForm'>
               <input placeholder='Item Name (ex. Rent)' ng-model='itemForm.name'/>
               <input placeholder='Dollar Amount' ng-model='itemForm.sum'/>
               <input placeholder='Weekly, Daily, or Monthly' ng-model='itemForm.frequency'/>
-              <input placeholder='Income or Expense' ng-model='itemForm.type'/>
-              <button type='submit'>Add New</button>
+              <div class="add-buttons-container">
+                <button type='submit' ng-click='addIncome(itemForm)'>Add Income</button>
+                <button type='submit' ng-click='addExpense(itemForm)' style="background-color: #b90000">Add Expense</button>
+              </div>
             </form>
           </div>
-          <div class="col-3">
-            <h6>Monthly Income</h6>
-            <ul class='IncomeLine-list'>
-              <li ng-repeat='item in incomeItems'>
-                {{ item.name + ': ' + item.sum }}
-              </li>
-            </ul>
-            <h6>Monthly Expenses</h6>
-            <ul class='ExpenseLine-list'>
-              <li ng-repeat='item in expenseItems'>
-                {{ item.name + ': ' + item.sum }}
-              </li>
-            </ul>
+          <div class="monthly-report-container">
+            <div class="income-expense-list-container">
+            <div>
+              <h5>Monthly Income</h5>
+                <div ng-repeat='item in incomeItems'>
+                  {{ item.name + ': ' + item.sum }}
+                </div>
+            </div>
+            <div>
+              <h5>Monthly Expenses</h5>
+                <div ng-repeat='item in expenseItems'>
+                  {{ item.name + ': ' + item.sum }}
+                </div>
+            </div>
+            </div>
+            <div class="total-container">
+              Monthly Net Balance: ${{ getMonthlyNet() }}
+            </div>
           </div>
         </div>
       </div>
